@@ -32,6 +32,15 @@ class Stop(Base, StopBase):
     platform_code = Column(String(50))
     direction = Column(String(50))
     position = Column(String(50))
+    vehicle_type = Column(Integer)
+
+    # see https://developers.google.com/transit/gtfs/reference/gtfs-extensions
+    type = relationship(
+        'RouteType',
+        primaryjoin='Stop.vehicle_type==RouteType.route_type',
+        foreign_keys='(Stop.vehicle_type)',
+        uselist=False, viewonly=True,
+    )
 
     stop_features = relationship(
         'StopFeature',
